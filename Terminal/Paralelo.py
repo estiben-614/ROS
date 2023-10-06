@@ -13,3 +13,5 @@ with ThreadPoolExecutor() as executor:
     resultados = list(executor.map(ejecutar_comando, comandos))
 
 # Los comandos se ejecutarán en paralelo
+
+# Para correr python Paralelo.py desde terminal

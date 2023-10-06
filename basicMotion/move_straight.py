@@ -30,7 +30,7 @@ def move(velocity_publisher, speed, distance, is_forward):
 
         # Se inicializa la distancia en 0
         distance_moved = 0.0
-        loop_rate = rospy.Rate(10) # Se publicara 10 mensajes por segundo
+        loop_rate = rospy.Rate(10) # Se publicaran 10 mensajes por segundo
         
         while True :
                 rospy.loginfo("Turtlesim moves forwards")
@@ -41,29 +41,33 @@ def move(velocity_publisher, speed, distance, is_forward):
                 loop_rate.sleep()
                 
                 distance_moved = abs(math.sqrt(((x-x0) ** 2) + ((y-y0) ** 2)))
-                print  (distance_moved)
-                print(x)
+                print  (f"Distancia recorrida : {distance_moved}")
+                print(f"Posición turtlesim : {x}")
                 if  not (distance_moved<distance):
                     rospy.loginfo("reached")
                     break
         
-        #finally, stop the robot when the distance is moved
+        #Freno de la turtulesim cuando llega a la distancia establecida 
         velocity_message.linear.x =0
+        # Se publica el mensaje de frenado
         velocity_publisher.publish(velocity_message)
 if __name__ == '__main__':
     try:
         rospy.init_node('move_straight', anonymous=True)
 
-        #declare velocity publisher
-        cmd_vel_topic='/turtle1/cmd_vel'
+        #Declaramos el topico y el publisher
+        cmd_vel_topic='/turtle1/cmd_vel' # Publicara al topico cmd_vel_topic un mensaje Twist y tendrá una cola de 0 mensajes
         velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)
         
+        #Declaramos el topico y el suscriber que escuchará la posición de la turtlesim
         position_topic = "/turtle1/pose"
         pose_subscriber = rospy.Subscriber(position_topic, Pose, poseCallback)
+        
         #Detiene el codigo 2 segungos para esperar a que se obtengan x,y,z del pose_subscriber,
         # es decir,  permite que el nodo de ROS tenga tiempo para establecer conexiones  
         time.sleep(2)
+        
         #Se ejecuta la función move 
-        move(velocity_publisher, 1.0, 5, True)
+        move(velocity_publisher, 1.0, 10, False)
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")

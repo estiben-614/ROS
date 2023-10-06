@@ -70,7 +70,7 @@ def rotate (velocity_publisher, angular_speed_degree, relative_angle_degree, clo
 if __name__ == '__main__':
     try:
         # Nombre del nodo usando rosnode list
-        rospy.init_node('move_straight', anonymous=True)
+        rospy.init_node('rotation', anonymous=True)
 
         #Declaramos el topico y el publisher
         cmd_vel_topic='/turtle1/cmd_vel' # Publicara al topico cmd_vel_topic un mensaje Twist y tendrá una cola de 0 mensajes

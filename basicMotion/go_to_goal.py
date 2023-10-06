@@ -74,8 +74,7 @@ if __name__ == '__main__':
         # es decir,  permite que el nodo de ROS tenga tiempo para establecer conexiones  
         time.sleep(2)
         
-        #Se ejecuta la función go_to_goal -> True para dirección de las agujas del reloj,
-        # false para ir en contra de las agujas 
-        go_to_goal(velocity_publisher,5,8)
+        #Se ejecuta la función go_to_goal
+        go_to_goal(velocity_publisher,5,5)
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")

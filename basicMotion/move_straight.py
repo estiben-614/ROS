@@ -53,6 +53,7 @@ def move(velocity_publisher, speed, distance, is_forward):
         velocity_publisher.publish(velocity_message)
 if __name__ == '__main__':
     try:
+        # Nombre del nodo usando rosnode list
         rospy.init_node('move_straight', anonymous=True)
 
         #Declaramos el topico y el publisher

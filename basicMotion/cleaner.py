@@ -115,6 +115,7 @@ def go_to_goal(velocity_publisher, x_goal, y_goal):
         if (distance <0.01):
             break
 
+# Es la orientación absoluta, es decir, puede que la turtlesim esté a 45 grados, si le pongo 180, queda a 180 grados
 def setDesiredOrientation(publisher, speed_in_degree, desired_angle_degree):
     relative_angle_radians = math.radians(desired_angle_degree) - yaw
     clockwise=0
@@ -188,7 +189,7 @@ if __name__ == '__main__':
         #rotate(velocity_publisher, 30, 90, True)
         #go_to_goal(velocity_publisher, 2.0, 1.5)
         #setDesiredOrientation(velocity_publisher, 30, 90)
-        #spiralClean(velocity_publisher, 4, 0)
-        gridClean(velocity_publisher)
+        spiralClean(velocity_publisher, 4, 0)
+        # gridClean(velocity_publisher)
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")

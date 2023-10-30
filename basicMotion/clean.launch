@@ -1,0 +1,7 @@
+<launch>
+    <!-- name: Es el nombre del nodo que deseas darle.
+    pkg: Es el nombre del paquete que contiene el nodo.
+    type: Es el nombre del ejecutable del nodo. -->
+    <node name="nodo_turtlesim" pkg="turtlesim" type="turtlesim_node" />
+    <node name="nodo_pa moverlo" pkg="ros_pruebas" type="cleaner.py" />
+</launch>

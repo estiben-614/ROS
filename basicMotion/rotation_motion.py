@@ -19,35 +19,29 @@ def rotate (velocity_publisher, angular_speed_degree, relative_angle_degree, clo
     #Declaramos el mensaje de velocidad
     velocity_message = Twist()
 
-    #Calculamos la velocidad angular pasando de grados a radianes
+    #Grados a radianes
     angular_speed=math.radians(abs(angular_speed_degree))
 
-    #Dirección de rotación
     if (clockwise):
         #Recordar que velocity_message es de la forma : { linear : {x, y,z} , angular: {x,y,z}}
         velocity_message.angular.z =-abs(angular_speed)
     else:
         velocity_message.angular.z =abs(angular_speed)
 
-    #Se inicializa el angulo 
     angle_moved = 0.0
     
-    #Se publicaran 10 mensajes de velocidad por segundo
     loop_rate = rospy.Rate(10)     
     
-    #Se define el topico y se publica el mensaje
     cmd_vel_topic='/turtle1/cmd_vel'
     velocity_publisher = rospy.Publisher(cmd_vel_topic, Twist, queue_size=10)
 
-    # Obtiene el tiempo en segundos en el que inicia la simulación
+    # Tiempo de inicio
     t0 = rospy.Time.now().to_sec()
 
     while True :
         rospy.loginfo("Turtlesim rotates")
-        #Mientras se cumpla, envia mensajes de velocidad a la turtlesim
         velocity_publisher.publish(velocity_message)
 
-        # Obtiene el tiempo de cada iteración
         t1 = rospy.Time.now().to_sec()
         
         #El angulo actual será la diferencia de tiempo por la velocidad angular
@@ -58,7 +52,6 @@ def rotate (velocity_publisher, angular_speed_degree, relative_angle_degree, clo
         # Hace la pausa para mantener la frecuencia de 10hz por segundo
         loop_rate.sleep()
 
-        # Si el angulo actual > angulo indicado, rompe el ciclo
         if  (current_angle_degree>relative_angle_degree):
             rospy.loginfo("reached")
             break
@@ -86,6 +79,6 @@ if __name__ == '__main__':
         
         #Se ejecuta la función rotate -> True para dirección de las agujas del reloj,
         # false para ir en contra de las agujas 
-        rotate(velocity_publisher,20,180,True)
+        rotate(velocity_publisher,50,180,False)
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")

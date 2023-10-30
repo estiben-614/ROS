@@ -5,9 +5,7 @@ from turtlesim.msg import Pose
 import math
 import time
 def poseCallback(pose_message):
-    # Los valores de x,y, yaw vendrán del topico /turtle1/pose y se actualizan cada vez que
-    # se actualiza la posicion
-    #Se almacenan de forma global
+    # Los valores de x,y, yaw vendrán del topico /turtle1/pose
     global x
     global y, yaw
     x= pose_message.x
@@ -17,24 +15,20 @@ def poseCallback(pose_message):
 def move(velocity_publisher, speed, distance, is_forward):
         #Se declara el mensaje de velocidad
         velocity_message = Twist()
-        #Se recupera la posición actual de la tortuga que vienen gracias al poseCallback
         global x, y
         x0=x
         y0=y
 
-        # Si la dirección es hacia adelante
         if (is_forward):
             velocity_message.linear.x =abs(speed)
         else:
         	velocity_message.linear.x =-abs(speed)
 
-        # Se inicializa la distancia en 0
         distance_moved = 0.0
         loop_rate = rospy.Rate(10) # Se publicaran 10 mensajes por segundo
         
         while True :
                 rospy.loginfo("Turtlesim moves forwards")
-                #El publish viene de velocity_publisher
                 #Se publica la velocidad
                 velocity_publisher.publish(velocity_message)
 
@@ -49,7 +43,6 @@ def move(velocity_publisher, speed, distance, is_forward):
         
         #Freno de la turtulesim cuando llega a la distancia establecida 
         velocity_message.linear.x =0
-        # Se publica el mensaje de frenado
         velocity_publisher.publish(velocity_message)
 if __name__ == '__main__':
     try:
@@ -69,6 +62,6 @@ if __name__ == '__main__':
         time.sleep(2)
         
         #Se ejecuta la función move 
-        move(velocity_publisher, 1.0, 10, False)
+        move(velocity_publisher, 10, 5, True)
     except rospy.ROSInterruptException:
         rospy.loginfo("node terminated.")
